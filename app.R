@@ -237,7 +237,7 @@ server <- function(input, output, session) {
       data1$special_group})
     
     output$img1 <- renderImage({req(input$name1)
-      list(src = data1$Image, width=180, height=170)})
+      list(src = paste0("data/",data1$Image), width=180, height=170)})
     
     output$stat1 <- renderPlot({req(input$name1) 
       par(bg = "lightgray", mar = c(4, 6, 2, 3))
@@ -316,7 +316,7 @@ server <- function(input, output, session) {
       data2$special_group})
     
     output$img2 <- renderImage({req(input$name2)
-      list(src = data2$Image, width = 180, height=170)})
+      list(src = paste0("data/",data2$Image), width = 180, height=170)})
     
     
     output$stat2 <- renderPlot({req(input$name2) 
