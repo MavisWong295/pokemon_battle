@@ -1,12 +1,3 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    https://shiny.posit.co/
-#
-
 library(shiny)
 library(dplyr)
 library(shinyjs)
@@ -20,7 +11,7 @@ t1 <- unique(df$type1)
 t2 <- unique(df$type2)
 l <- unique(df$special_group)
 n <- df$name
-# Define UI for application that draws a histogram
+
 ui <- fluidPage(
   useShinyjs(),
   tags$head(
@@ -338,8 +329,4 @@ server <- function(input, output, session) {
   })
 }
 
-
-
-
-# Run the application 
 shinyApp(ui, server)
