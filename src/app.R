@@ -3,7 +3,7 @@ library(dplyr)
 library(shinyjs)
 
 
-df <- read.csv("data/pokemon_data.csv") |> 
+df <- read.csv("../data/pokemon_data.csv") |> 
   mutate(type2= case_when(type2 == "" ~ 'NA',
                           type2 != "" ~ type2))
 g <- unique(df$generation)
@@ -14,9 +14,11 @@ n <- df$name
 
 ui <- fluidPage(
   useShinyjs(),
+  
+  # CSS Styles
   tags$head(
     tags$style(HTML("
-      .title-1 {
+      .title {
         background-color: #CC0000;
         color: white;
         font-size: 36px;
@@ -25,7 +27,7 @@ ui <- fluidPage(
         text-align: center;
         margin-bottom: 30px}
         
-      .column-1 {
+      .side_bar {
         text-align: center;
         color: white;
         background-color: black;
@@ -37,7 +39,7 @@ ui <- fluidPage(
         align-items: center;
         padding: 10px;
       }
-      .column-content {
+      .sidebar-content {
         text-align: center;
         color: black;
         background-color: #FFCC00; 
@@ -53,10 +55,10 @@ ui <- fluidPage(
         padding:30px;
       }
  
-      .text-1 {
+      .text-output {
         text-align: left;
       }
-      .text-2 {
+      .text-title {
         text-align: right;
       }
       .img{
@@ -77,83 +79,99 @@ ui <- fluidPage(
 
 
     "))),
+  # Dashboard Title
+  div(class = "title", "Pokemon Battle"),
   
-  div(class = "title-1", "Pokemon Battle"),
+  # Sidebar
   sidebarPanel(width=3,
                fluidRow(
+                 
+                 # Pokemon 1 Filter
                  column(6,
-                        fluidRow(div(class= "column-1", h4("Pokemon 1:"))),
-                        fluidRow(div(class= "column-content", 
+                        fluidRow(div(class= "side_bar", h4("Pokemon 1:"))),
+                        fluidRow(div(class= "sidebar-content", 
                                      selectInput("gen1", "Generation", choices = c(Choose='', g), selectize=TRUE))),
-                        fluidRow(div(class= "column-content", 
+                        fluidRow(div(class= "sidebar-content", 
                                      selectInput("legend1", "Special Pokemon?", choices = c(Choose='', l), selectize=TRUE))),
-                        fluidRow(div(class= "column-content",
+                        fluidRow(div(class= "sidebar-content",
                                      selectInput("type1_1", "Type 1:", choices = c(Choose='', t1), selectize=TRUE))),
-                        fluidRow(div(class= "column-content",
+                        fluidRow(div(class= "sidebar-content",
                                      selectInput("type2_1", "Type 2:", choices = c(Choose='', t2), selectize=TRUE))),
-                        fluidRow(div(class= "column-content", 
+                        fluidRow(div(class= "sidebar-content", 
                                      selectInput('name1', "Select your pokemon:", choices = c(Choose='', n), selectize=TRUE))),
-                        fluidRow(div(class= "column-content", 
+                        fluidRow(div(class= "sidebar-content", 
                                      checkboxInput("reset1", "Reset", value = FALSE)))),
+                 
+                 # Pokemon 2 Filter
                  column(6,
-                        fluidRow(div(class= "column-1",h4("Pokemon 2:"))),
-                        fluidRow(div(class= "column-content",
+                        fluidRow(div(class= "side_bar",h4("Pokemon 2:"))),
+                        fluidRow(div(class= "sidebar-content",
                                      selectInput("gen2", "Generation", choices = c(Choose='', g), selectize=TRUE))),
-                        fluidRow(div(class= "column-content",
+                        fluidRow(div(class= "sidebar-content",
                                      selectInput("legend2", "Special Pokemon?", choices = c(Choose='', l), selectize=TRUE))),
-                        fluidRow(div(class= "column-content",
+                        fluidRow(div(class= "sidebar-content",
                                      selectInput("type1_2", "Type 1:", choices = c(Choose='', t1), selectize=TRUE))),
-                        fluidRow(div(class= "column-content",
+                        fluidRow(div(class= "sidebar-content",
                                      selectInput("type2_2", "Type 2:", choices = c(Choose='', t2), selectize=TRUE))),
-                        fluidRow(div(class= "column-content",
+                        fluidRow(div(class= "sidebar-content",
                                      selectInput('name2', "Select your pokemon:", choices = c(Choose='', n), selectize=TRUE))),
-                        fluidRow(div(class= "column-content", checkboxInput("reset2", "Reset", value = FALSE))))
+                        fluidRow(div(class= "sidebar-content", checkboxInput("reset2", "Reset", value = FALSE))))
                )),
   
-  
+  # Main App
   mainPanel(width=9,
+            
+            # Pokemon 1 Card
             column(6, div(class= "pokemon-card",
                           fluidRow(
+                            
+                            # Pokemon 1 Details
                             column(6,
                                    fluidRow(
                                      column(6, uiOutput("name_1")), 
-                                     column(6,div(class='text-1', h5(textOutput("Name1"))))),
+                                     column(6,div(class='text-output', h5(textOutput("Name1"))))),
                                    fluidRow(
                                      column(6, uiOutput("gen_1")),  
-                                     column(6, div(class='text-1', h5(textOutput("Gen1"))))),
+                                     column(6, div(class='text-output', h5(textOutput("Gen1"))))),
                                    fluidRow(
                                      column(6, uiOutput("type_1")), 
-                                     column(6, div(class='text-1', h5(textOutput("Type1"))))),
+                                     column(6, div(class='text-output', h5(textOutput("Type1"))))),
                                    fluidRow( 
                                      column(6, uiOutput("ability_1")), 
-                                     column(6, div(class='text-1',h5(textOutput("Ability1"))))),
+                                     column(6, div(class='text-output',h5(textOutput("Ability1"))))),
                                    fluidRow(
                                      column(6, uiOutput("legend_1")), 
-                                     column(6, div(class='text-1', h5(textOutput("Cat1")))))),
+                                     column(6, div(class='text-output', h5(textOutput("Cat1")))))),
                             column(6, div(class='img', imageOutput("img1", height='240px')))), 
+                          
+                          # Pokemon 1 Stats
                           plotOutput("stat1", height = "300px", width='29vw'))),
             
             
-            
+            # Pokemon 2 Card
             column(6,div(class= "pokemon-card",
                          fluidRow(
+                           
+                           # Pokemon 2 Details
                            column(6,
                                   fluidRow(
                                     column(6, uiOutput("name_2")), 
-                                    column(6, div(class='text-1', h5(textOutput("Name2"))))),
+                                    column(6, div(class='text-output', h5(textOutput("Name2"))))),
                                   fluidRow(
                                     column(6, uiOutput("gen_2")),  
-                                    column(6, div(class='text-1', h5(textOutput("Gen2"))))),
+                                    column(6, div(class='text-output', h5(textOutput("Gen2"))))),
                                   fluidRow(
                                     column(6, uiOutput("type_2")), 
-                                    column(6, div(class='text-1', h5(textOutput("Type2"))))),
+                                    column(6, div(class='text-output', h5(textOutput("Type2"))))),
                                   fluidRow( 
                                     column(6, uiOutput("ability_2")), 
-                                    column(6, div(class='text-1',h5(textOutput("Ability2"))))),
+                                    column(6, div(class='text-output',h5(textOutput("Ability2"))))),
                                   fluidRow(
                                     column(6, uiOutput("legend_2")), 
-                                    column(6, div(class='text-1', h5(textOutput("Cat2")))))),
+                                    column(6, div(class='text-output', h5(textOutput("Cat2")))))),
                            column(6, div(class='img', imageOutput("img2", height='240px')))), 
+                         
+                         # Pokemon 2 Stats
                          plotOutput("stat2", height = "300px",width='29vw')))
   ))
 
@@ -164,10 +182,10 @@ ui <- fluidPage(
 
 
 
-
+# Server 
 server <- function(input, output, session) {
   
-  # Pokemon 1
+  # Pokemon 1 Filter Inputs
   observe({
     if (input$gen1 == ""){g1 = g} else{g1=input$gen1}
     if (input$type1_1 == ""){t11 = t1} else{t11=input$type1_1}
@@ -180,11 +198,13 @@ server <- function(input, output, session) {
              type2 %in% t21,
              special_group %in% l1)
     
+    # Update Pokemon 1 Filter Options 
     updateSelectInput(session, 'type1_1', choices = c(Choose='', unique(data1$type1)), selected = input$type1_1)
     updateSelectInput(session, 'type2_1', choices = c(Choose='', unique(data1$type2)), selected = input$type2_1)
     updateSelectInput(session, 'legend1', choices = c(Choose='', unique(data1$special_group)), selected = input$legend1)
     updateSelectInput(session, 'name1', choices = c(Choose='', unique(data1$name)), selected = input$name1)
     
+    # Reset Pokemon 1 Filters
     observeEvent(input$reset1,{
       if (input$reset1==TRUE){
         shinyjs::reset("gen1")
@@ -195,41 +215,44 @@ server <- function(input, output, session) {
         shinyjs::reset("reset1")}
     })
     
+    # Pokemon 1 Filtered Data
     data1 <- df |> 
       filter(name == input$name1) |> 
       mutate(type2= case_when(type2 == "NA" ~ '', type2 != "NA" ~ type2))
     
-    
     stats1 <- data1 |> select(hp, attack, defense, sp_atk, sp_def, speed)
     
+    # Pokemon 1 Detail Output
     output$name_1 <- renderUI({req(input$name1)
-      div(class= "text-2", h5("Name:"))})
+      div(class= "text-title", h5("Name:"))})
     output$Name1 <- renderText({req(input$name1) 
       data1$name})
     
     output$gen_1 <- renderUI({req(input$name1)
-      div(class= "text-2", h5("Generation:"))})
+      div(class= "text-title", h5("Generation:"))})
     output$Gen1 <- renderText({req(input$name1) 
       data1$generation})
     
     output$type_1 <- renderUI({req(input$name1)
-      div(class= "text-2", h5("Type:"))})
+      div(class= "text-title", h5("Type:"))})
     output$Type1 <- renderText({req(input$name1) 
       paste0(data1$type1, " / ", data1$type2)})
     
     output$ability_1 <- renderUI({req(input$name1)
-      div(class= "text-2", h5("Ability:"))})
+      div(class= "text-title", h5("Ability:"))})
     output$Ability1 <- renderText({req(input$name1) 
       paste0(data1$ability1, " / ", data1$ability2, " / ", data1$hidden_ability)})
     
     output$legend_1 <- renderUI({req(input$name1)
-      div(class= "text-2", h5("Legendary:"))})
+      div(class= "text-title", h5("Legendary:"))})
     output$Cat1 <- renderText({req(input$name1) 
       data1$special_group})
     
+    # Pokemon 1 Image Output
     output$img1 <- renderImage({req(input$name1)
-      list(src = paste0("data/",data1$Image), width=180, height=170)})
+      list(src = paste0("../data/",data1$Image), width=180, height=170)})
     
+    # Pokemon 1 Stats Chart Output 
     output$stat1 <- renderPlot({req(input$name1) 
       par(bg = "lightgray", mar = c(4, 6, 2, 3))
       bp1 <- barplot(
@@ -248,7 +271,7 @@ server <- function(input, output, session) {
     
     
     
-    # Pokemon 2
+    # Pokemon 2 Filter Inputs
     if (input$gen2 == ""){g2 = g} else{g2=input$gen2}
     if (input$type1_2 == ""){t12 = t1} else{t12=input$type1_2}
     if (input$type2_2 == ""){t22 = t2} else{t22=input$type2_2}
@@ -260,11 +283,13 @@ server <- function(input, output, session) {
              type2 %in% t22,
              special_group %in% l2)
     
+    # Update Pokemon 2 Filter Options 
     updateSelectInput(session, 'type1_2', choices = c(Choose='', unique(data2$type1)), selected = input$type1_2)
     updateSelectInput(session, 'type2_2', choices = c(Choose='', unique(data2$type2)), selected = input$type2_2)
     updateSelectInput(session, 'legend2', choices = c(Choose='', unique(data2$special_group)), selected = input$legend2)
     updateSelectInput(session, 'name2', choices = c(Choose='', unique(data2$name)), selected = input$name2)
     
+    # Reset Pokemon 2 Filters
     observeEvent(input$reset2, {
       if (input$reset2==TRUE){
         shinyjs::reset("gen2")
@@ -275,41 +300,44 @@ server <- function(input, output, session) {
         shinyjs::reset("reset2")}
     })
     
+    # Pokemon 2 Filtered Data
     data2 <- df |> 
       filter(name == input$name2) |> 
       mutate(type2= case_when(type2 == "NA" ~ '', type2 != "NA" ~ type2))
     
     stats2 <- data2 |> select(hp, attack, defense, sp_atk, sp_def, speed)
     
+    #  Pokemon 2 Detail Output
     output$name_2 <- renderUI({req(input$name2)
-      div(class= "text-2", h5("Name:"))})
+      div(class= "text-title", h5("Name:"))})
     output$Name2 <- renderText({req(input$name2) 
       data2$name})
     
     output$gen_2 <- renderUI({req(input$name2)
-      div(class= "text-2", h5("Generation:"))})
+      div(class= "text-title", h5("Generation:"))})
     output$Gen2 <- renderText({req(input$name2) 
       data2$generation})
     
     output$type_2 <- renderUI({req(input$name2)
-      div(class= "text-2", h5("Type:"))})
+      div(class= "text-title", h5("Type:"))})
     output$Type2 <- renderText({req(input$name2) 
       paste0(data2$type1, " / ", data2$type2)})
     
     output$ability_2 <- renderUI({req(input$name2)
-      div(class= "text-2", h5("Ability:"))})
+      div(class= "text-title", h5("Ability:"))})
     output$Ability2 <- renderText({req(input$name2) 
       paste0(data2$ability1, " / ", data2$ability2, " / ", data2$hidden_ability)})
     
     output$legend_2 <- renderUI({req(input$name2)
-      div(class= "text-2", h5("Legendary:"))})
+      div(class= "text-title", h5("Legendary:"))})
     output$Cat2 <- renderText({req(input$name2) 
       data2$special_group})
     
+    # Pokemon 2 Image Output
     output$img2 <- renderImage({req(input$name2)
-      list(src = paste0("data/",data2$Image), width = 180, height=170)})
+      list(src = paste0("../data/",data2$Image), width = 180, height=170)})
     
-    
+    # Pokemon 2 Stats Chart Output 
     output$stat2 <- renderPlot({req(input$name2) 
       par(bg = "lightgray", mar = c(4, 6, 2, 3))
       bp2 <- barplot(
