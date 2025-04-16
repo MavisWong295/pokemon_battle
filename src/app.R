@@ -3,7 +3,7 @@ library(dplyr)
 library(shinyjs)
 
 
-df <- read.csv("../data/pokemon_data.csv") |> 
+df <- read.csv("../data/raw/pokemon_data.csv") |> 
   mutate(type2= case_when(type2 == "" ~ 'NA',
                           type2 != "" ~ type2))
 g <- unique(df$generation)
@@ -250,7 +250,7 @@ server <- function(input, output, session) {
     
     # Pokemon 1 Image Output
     output$img1 <- renderImage({req(input$name1)
-      list(src = paste0("../data/",data1$Image), width=180, height=170)})
+      list(src = paste0("../data/",data1$Image), width=180, height=170, deleteFile=FALSE)})
     
     # Pokemon 1 Stats Chart Output 
     output$stat1 <- renderPlot({req(input$name1) 
@@ -335,7 +335,7 @@ server <- function(input, output, session) {
     
     # Pokemon 2 Image Output
     output$img2 <- renderImage({req(input$name2)
-      list(src = paste0("../data/",data2$Image), width = 180, height=170)})
+      list(src = paste0("../data/",data2$Image), width = 180, height=170, deleteFile=FALSE)})
     
     # Pokemon 2 Stats Chart Output 
     output$stat2 <- renderPlot({req(input$name2) 

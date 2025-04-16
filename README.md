@@ -1,7 +1,7 @@
 # Pokemon Battle App
 
 You can view the live app at the following link: [Deployed
-App](https://maviswong295-pokemonbattle.share.connect.posit.cloud/)
+App](https://maviswong295-pokemonbattle.share.connect.posit.cloud)
 
 ## Motivation
 
@@ -60,16 +60,23 @@ install.packages(c("shiny", "dplyr", "shinyjs"))
 
 1.  **Clone the repository** to your local machine.
 
-```git clone https://github.com/MavisWong295/pokemon_battle```
+```
+git clone https://github.ubc.ca/mds-2024-25/pokemon_battle.git
+```
 
-2. Open the repository in RStudio.
+2. In RStudio, open the repository by selecting `Open project` in the File menu.
 3. Run the following command in the R console:
 
-```runApp("app.R")```
+```
+library(shiny)
+runApp("src/app.R")
+```
 
 4. The app will launch in your viewer window. You should see a link similar to the one shown below in the console. You can use it to launch the app in your browser.
-```Listening on http://127.0.0.1:6612```
+```
+http://127.0.0.1:3057
+```
 
 # License
 
-`pokemon_battle` was created by Mavis Wong([\@MavisWong295](https://github.com/MavisWong295)). It is licensed under the terms of the **MIT license**.
+`pokemon_battle` was created by Mavis Wong([@hwong52](https://github.ubc.ca/hwong52)). It is licensed under the terms of the **MIT license**.
