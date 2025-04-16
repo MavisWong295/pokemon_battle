@@ -1,7 +1,7 @@
 # Pokemon Battle App
 
 You can view the live app at the following link: [Deployed
-App](https://maviswong295-pokemon-battle.share.connect.posit.cloud)
+App](https://maviswong295-pokemonbattle.share.connect.posit.cloud/)
 
 ## Motivation
 
